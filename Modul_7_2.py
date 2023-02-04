@@ -1,60 +1,93 @@
 class Movies:
-    def __init__(self, title, year, genre, number_of_views):
-        self.movie_title = title
-        self.year = year
-        self.genre = genre
-        self.number_of_views = number_of_views
 
-    def __str__(self):
-        return f'"{self.title}" ({self.year}) Gerne:{self.genre} Views: {self.number_of_views}'
+  def __init__(self, title, year, genre, number_of_views):
+    self.title = title
+    self.year = year
+    self.genre = genre
+    self.number_of_views = number_of_views
 
-m_1 = Movies('The green mile', '1999', 'drama', '119735')
-m_2 = Movies('Schindlers list', '1993', 'drama', '78003')
-m_3 = Movies('TheShawshank Redemption', '1994', 'drama', '80321')
-m_4 = Movies('Forrest Gump', '1994', 'drama', '111224')
+  def __str__(self):
+    return f'"{self.title}" ({self.year}) Gerne:{self.genre} Views: {self.number_of_views}'
 
-movies_list = [m_1, m_2, m_3, m_4]
+  def __repr__(self):
+    return str(self)
+
+  def __lt__(self, other):
+    return self.title < other.title
+
+  def play(self):
+    if action == 'yes':
+      self.number_of_views = self.number_of_views + 1
+    else:
+      return None
 
 class Series(Movies):
-    def __init__(self, episode, season, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.episode = episode
-        self.season = season
 
-    def __str__(self):
-        return f'"{self.title}"({self.year}) Gerne:{self.genre} Vievs:{self.number_of_views} Episodes:{self.episode} Seasons:{self.season}'
-      
-    @property
-    def play(self, view = 1):
-      self.curent_number_of_views += 1
-     
-    def __lt__(self, other):
-        return self.title < other.title
-    
+  def __init__(self, title, year, genre, number_of_views, episode, season):
+    super().__init__(title, year, genre, number_of_views)
+    self.episode = episode
+    self.season = season
 
-s_1 = Series('Breaking Bad', '2008-2013', 'kriminal', '90537', '62', '5')
-s_2 = Series('Game of Thrones', '2011-2019', 'fantasy', '165864', '73', '8')
+  def __str__(self):
+    return f'"{self.title}" ({self.year}) Gerne:{self.genre} Views:{self.number_of_views} Episodes:{self.episode} Seasons:{self.season}'
 
-series_list = [s_1,s_2]
-
-       
-def get_video(video_type):
-
-    video = []    
   
-    for m in movies_list:
-      if video_type == 1:
-         video.append(movies_list)
-    for s in series_list:    
-      if video_type == 2:
-        video.append(series_list)
-              
-    return video   
+def get_video(videos_list, v_title):
+
+  for v in videos_list:
+    if v.title == v_title:
+      return v
+  else:
+    return None
+
+def get_my_list(videos_list):
   
+  for v in videos_list:
+   if action == 'yes':
+     my_list.append(v) 
+  else:
+   return None
+
+
 if __name__ == "__main__":
-    
+
+  m_1 = Movies('The green mile', '1999', 'drama', 119735)
+  m_2 = Movies('Schindlers list', '1993', 'drama', 78003)
+  m_3 = Movies('TheShawshank Redemption', '1994', 'drama', 80321)
+  m_4 = Movies('Forrest Gump', '1994', 'drama', 111224)
+
+  movies_list = [m_1, m_2, m_3, m_4]
+
+  s_1 = Series('Breaking Bad', '2008-2013', 'kriminal', 90537, 62, 5)
+  s_2 = Series('Game of Thrones', '2011-2019', 'fantasy', 165864, 73, 8)
+  s_3 = Series('True detective', '2014-2019', 'kriminal',88099, 25, 4)
+
+  series_list = [s_1, s_2, s_3]
+
   video_type = int(input("Choose a type of video. Movie - 1, Series - 2: "))
-  video = get_video(video_type)  
-  for v in sorted(video):
-    print(video)
+
+  videos_list = []
+
+  if video_type == 1:
+    videos_list += movies_list
+  else:
+    videos_list += series_list
+
+  for v in sorted(videos_list):
+    print(v)
+
+  v_title = str(input('Search by title: '))
+  v = get_video(videos_list, v_title)
+  print(v)
   
+  action = str(input('Start to watch?(yes or no): '))
+  v.play()
+  print(v)
+
+  my_list = []
+  
+  action = str(input('Do you want to add this video to MY LIST (yes or no): '))
+  
+  get_my_list(videos_list)
+  print('Show MY LIST:')
+  print(v)
